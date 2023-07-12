@@ -14,13 +14,13 @@ from .safemodels import SafeGuild, SafeMember
 
 __author__ = "tmerc"
 
-log = logging.getLogger("red.tmerc.welcome")
+log = logging.getLogger("red.tmerc.welcomejun")
 
 ENABLED = "enabled"
 DISABLED = "disabled"
 
 
-class Welcome(commands.Cog):
+class Welcomejun(commands.Cog):
     """Announce when users join or leave a server."""
 
     default_join = "Welcome {member.mention} to {server.name}!"
@@ -75,10 +75,10 @@ class Welcome(commands.Cog):
         self.config = Config.get_conf(self, 86345009)
         self.config.register_guild(**self.guild_defaults)
 
-    @commands.group(aliases=["welcomeset"], fallback="state")
+    @commands.group(aliases=["welcomejun"], fallback="state")
     @commands.guild_only()
     @checks.admin_or_permissions(manage_guild=True)
-    async def welcome(self, ctx: commands.Context) -> None:
+    async def welcomejun(self, ctx: commands.Context) -> None:
         """Get current Welcome settings."""
 
         await ctx.typing()
@@ -117,7 +117,7 @@ class Welcome(commands.Cog):
                         f"**Delete previous:** {j['delete']}\n"
                         f"**Whisper state:** {jw['state']}\n"
                         f"**Whisper message:** {whisper_message}\n"
-                        f"**Messages:** {len(j['messages'])}; do `{ctx.prefix}welcomeset join msg list` for a list\n"
+                        f"**Messages:** {len(j['messages'])}; do `{ctx.prefix}welcomejun join msg list` for a list\n"
                         f"**Bot message:** {j['bot']}"
                     ),
                 )
@@ -128,7 +128,7 @@ class Welcome(commands.Cog):
                         f"**Enabled:** {v['enabled']}\n"
                         f"**Channel:** {leave_channel.mention}\n"
                         f"**Delete previous:** {v['delete']}\n"
-                        f"**Messages:** {len(v['messages'])}; do `{ctx.prefix}welcomeset leave msg list` for a list\n"
+                        f"**Messages:** {len(v['messages'])}; do `{ctx.prefix}welcomejun leave msg list` for a list\n"
                     ),
                 )
                 emb.add_field(
@@ -138,7 +138,7 @@ class Welcome(commands.Cog):
                         f"**Enabled:** {b['enabled']}\n"
                         f"**Channel:** {ban_channel.mention}\n"
                         f"**Delete previous:** {b['delete']}\n"
-                        f"**Messages:** {len(b['messages'])}; do `{ctx.prefix}welcomeset ban msg list` for a list\n"
+                        f"**Messages:** {len(b['messages'])}; do `{ctx.prefix}welcomejun ban msg list` for a list\n"
                     ),
                 )
                 emb.add_field(
@@ -148,7 +148,7 @@ class Welcome(commands.Cog):
                         f"**Enabled:** {u['enabled']}\n"
                         f"**Channel:** {unban_channel.mention}\n"
                         f"**Delete previous:** {u['delete']}\n"
-                        f"**Messages:** {len(u['messages'])}; do `{ctx.prefix}welcomeset unban msg list` for a list\n"
+                        f"**Messages:** {len(u['messages'])}; do `{ctx.prefix}welcomejun unban msg list` for a list\n"
                     ),
                 )
 
@@ -164,30 +164,30 @@ class Welcome(commands.Cog):
                     f"    Whisper:\n"
                     f"      State: {jw['state']}\n"
                     f"      Message: {whisper_message}\n"
-                    f"    Messages: {len(j['messages'])}; do '{ctx.prefix}welcomeset join msg list' for a list\n"
+                    f"    Messages: {len(j['messages'])}; do '{ctx.prefix}welcomejun join msg list' for a list\n"
                     f"    Bot message: {j['bot']}\n"
                     f"  Leave:\n"
                     f"    Enabled: {v['enabled']}\n"
                     f"    Channel: {leave_channel}\n"
                     f"    Delete previous: {v['delete']}\n"
-                    f"    Messages: {len(v['messages'])}; do '{ctx.prefix}welcomeset leave msg list' for a list\n"
+                    f"    Messages: {len(v['messages'])}; do '{ctx.prefix}welcomejun leave msg list' for a list\n"
                     f"  Ban:\n"
                     f"    Enabled: {b['enabled']}\n"
                     f"    Channel: {ban_channel}\n"
                     f"    Delete previous: {b['delete']}\n"
-                    f"    Messages: {len(b['messages'])}; do '{ctx.prefix}welcomeset ban msg list' for a list\n"
+                    f"    Messages: {len(b['messages'])}; do '{ctx.prefix}welcomejun ban msg list' for a list\n"
                     f"  Unban:\n"
                     f"    Enabled: {u['enabled']}\n"
                     f"    Channel: {unban_channel}\n"
                     f"    Delete previous: {u['delete']}\n"
-                    f"    Messages: {len(u['messages'])}; do '{ctx.prefix}welcomeset unban msg list' for a list\n",
+                    f"    Messages: {len(u['messages'])}; do '{ctx.prefix}welcomejun unban msg list' for a list\n",
                     "Current Welcome Settings",
                 )
 
                 await ctx.send(msg)
 
-    @welcome.command(name="toggle")
-    async def welcome_toggle(self, ctx: commands.Context, on_off: bool = None) -> None:
+    @welcomejun.command(name="toggle")
+    async def welcomejun_toggle(self, ctx: commands.Context, on_off: bool = None) -> None:
         """Turns Welcome on or off.
 
         If `on_off` is not provided, the state will be flipped.
@@ -200,11 +200,11 @@ class Welcome(commands.Cog):
 
         await ctx.send(f"Welcome is now {ENABLED if target_state else DISABLED}.")
 
-    @welcome.command(name="channel")
-    async def welcome_channel(self, ctx: commands.Context, channel: discord.TextChannel) -> None:
+    @welcomejun.command(name="channel")
+    async def welcomejun_channel(self, ctx: commands.Context, channel: discord.TextChannel) -> None:
         """Sets the channel to be used for event notices."""
 
-        if not Welcome.__can_speak_in(channel):
+        if not Welcomejun.__can_speak_in(channel):
             await ctx.send(
                 f"I do not have permission to send messages in {channel.mention}. "
                 "Check your permission settings and try again."
@@ -216,14 +216,14 @@ class Welcome(commands.Cog):
 
         await ctx.send(f"I will now send event notices to {channel.mention}.")
 
-    @welcome.group(name="join")
-    async def welcome_join(self, ctx: commands.Context) -> None:
+    @welcomejun.group(name="join")
+    async def welcomejun_join(self, ctx: commands.Context) -> None:
         """Change settings for join notices."""
 
         pass
 
-    @welcome_join.command(name="toggle")
-    async def welcome_join_toggle(self, ctx: commands.Context, on_off: bool = None) -> None:
+    @welcomejun_join.command(name="toggle")
+    async def welcomejun_join_toggle(self, ctx: commands.Context, on_off: bool = None) -> None:
         """Turns join notices on or off.
 
         If `on_off` is not provided, the state will be flipped.
@@ -231,8 +231,8 @@ class Welcome(commands.Cog):
 
         await self.__toggle(ctx, on_off, "join")
 
-    @welcome_join.command(name="channel")
-    async def welcome_join_channel(self, ctx: commands.Context, channel: discord.TextChannel = None) -> None:
+    @welcomejun_join.command(name="channel")
+    async def welcomejun_join_channel(self, ctx: commands.Context, channel: discord.TextChannel = None) -> None:
         """Sets the channel to be used specifically for join notices.
 
         If `channel` is not provided, the join-specific channel is cleared.
@@ -240,8 +240,8 @@ class Welcome(commands.Cog):
 
         await self.__set_channel(ctx, channel, "join")
 
-    @welcome_join.command(name="toggledelete")
-    async def welcome_join_toggledelete(self, ctx: commands.Context, on_off: bool = None) -> None:
+    @welcomejun_join.command(name="toggledelete")
+    async def welcomejun_join_toggledelete(self, ctx: commands.Context, on_off: bool = None) -> None:
         """Turns deletion of previous join notice on or off.
 
         If `on_off` is not provided, the state will be flipped.
@@ -249,14 +249,14 @@ class Welcome(commands.Cog):
 
         await self.__toggledelete(ctx, on_off, "join")
 
-    @welcome_join.group(name="whisper")
-    async def welcome_join_whisper(self, ctx: commands.Context) -> None:
+    @welcomejun_join.group(name="whisper")
+    async def welcomejun_join_whisper(self, ctx: commands.Context) -> None:
         """Change settings for join whispers."""
 
         pass
 
-    @welcome_join_whisper.command(name="type")
-    async def welcome_join_whisper_type(self, ctx: commands.Context, choice: WhisperType) -> None:
+    @welcomejun_join_whisper.command(name="type")
+    async def welcomejun_join_whisper_type(self, ctx: commands.Context, choice: WhisperType) -> None:
         """Set if a DM is sent to the new member.
 
         Options:
@@ -283,8 +283,8 @@ class Welcome(commands.Cog):
                 f"I will now send a DM to new members, and if that fails I will send the message to {channel.mention}."
             )
 
-    @welcome_join_whisper.command(name="message", aliases=["msg"])
-    async def welcome_join_whisper_message(self, ctx: commands.Context, *, msg_format: str) -> None:
+    @welcomejun_join_whisper.command(name="message", aliases=["msg"])
+    async def welcomejun_join_whisper_message(self, ctx: commands.Context, *, msg_format: str) -> None:
         """Set the message DM'd to new members when they join.
 
         Allows for the following customizations:
@@ -296,14 +296,14 @@ class Welcome(commands.Cog):
 
         await ctx.send("I will now use that message format when whispering new members, if whisper is enabled.")
 
-    @welcome_join.group(name="message", aliases=["msg"])
-    async def welcome_join_message(self, ctx: commands.Context) -> None:
+    @welcomejun_join.group(name="message", aliases=["msg"])
+    async def welcomejun_join_message(self, ctx: commands.Context) -> None:
         """Manage join message formats."""
 
         pass
 
-    @welcome_join_message.command(name="add")
-    async def welcome_join_message_add(self, ctx: commands.Context, *, msg_format: str) -> None:
+    @welcomejun_join_message.command(name="add")
+    async def welcomejun_join_message_add(self, ctx: commands.Context, *, msg_format: str) -> None:
         """Add a new join message format to be chosen.
 
         Allows for the following customizations:
@@ -321,20 +321,20 @@ class Welcome(commands.Cog):
 
         await self.__message_add(ctx, msg_format, "join")
 
-    @welcome_join_message.command(name="delete", aliases=["del"])
-    async def welcome_join_message_delete(self, ctx: commands.Context) -> None:
+    @welcomejun_join_message.command(name="delete", aliases=["del"])
+    async def welcomejun_join_message_delete(self, ctx: commands.Context) -> None:
         """Delete an existing join message format from the list."""
 
         await self.__message_delete(ctx, "join")
 
-    @welcome_join_message.command(name="list", aliases=["ls"])
-    async def welcome_join_message_list(self, ctx: commands.Context) -> None:
+    @welcomejun_join_message.command(name="list", aliases=["ls"])
+    async def welcomejun_join_message_list(self, ctx: commands.Context) -> None:
         """Lists the available join message formats."""
 
         await self.__message_list(ctx, "join")
 
-    @welcome_join.command(name="botmessage", aliases=["botmsg"])
-    async def welcome_join_botmessage(self, ctx: commands.Context, *, msg_format: str = None) -> None:
+    @welcomejun_join.command(name="botmessage", aliases=["botmsg"])
+    async def welcomejun_join_botmessage(self, ctx: commands.Context, *, msg_format: str = None) -> None:
         """Sets the message format to use for join notices for bots.
 
         Supply no format to use normal join message formats for bots.
@@ -355,14 +355,14 @@ class Welcome(commands.Cog):
         else:
             await ctx.send("Bot join message format removed. I will now greet bots like normal members.")
 
-    @welcome.group(name="leave")
-    async def welcome_leave(self, ctx: commands.Context) -> None:
+    @welcomejun.group(name="leave")
+    async def welcomejun_leave(self, ctx: commands.Context) -> None:
         """Change settings for leave notices."""
 
         pass
 
-    @welcome_leave.command(name="toggle")
-    async def welcome_leave_toggle(self, ctx: commands.Context, on_off: bool = None) -> None:
+    @welcomejun_leave.command(name="toggle")
+    async def welcomejun_leave_toggle(self, ctx: commands.Context, on_off: bool = None) -> None:
         """Turns leave notices on or off.
 
         If `on_off` is not provided, the state will be flipped.
@@ -370,8 +370,8 @@ class Welcome(commands.Cog):
 
         await self.__toggle(ctx, on_off, "leave")
 
-    @welcome_leave.command(name="channel")
-    async def welcome_leave_channel(self, ctx: commands.Context, channel: discord.TextChannel = None) -> None:
+    @welcomejun_leave.command(name="channel")
+    async def welcomejun_leave_channel(self, ctx: commands.Context, channel: discord.TextChannel = None) -> None:
         """Sets the channel to be used specifically for leave notices.
 
         If `channel` is not provided, the leave-specific channel is cleared.
@@ -379,8 +379,8 @@ class Welcome(commands.Cog):
 
         await self.__set_channel(ctx, channel, "leave")
 
-    @welcome_leave.command(name="toggledelete")
-    async def welcome_leave_toggledelete(self, ctx: commands.Context, on_off: bool = None) -> None:
+    @welcomejun_leave.command(name="toggledelete")
+    async def welcomejun_leave_toggledelete(self, ctx: commands.Context, on_off: bool = None) -> None:
         """Turns deletion of previous leave notice on or off.
 
         If `on_off` is not provided, the state will be flipped.
@@ -388,14 +388,14 @@ class Welcome(commands.Cog):
 
         await self.__toggledelete(ctx, on_off, "leave")
 
-    @welcome_leave.group(name="message", aliases=["msg"])
-    async def welcome_leave_message(self, ctx: commands.Context) -> None:
+    @welcomejun_leave.group(name="message", aliases=["msg"])
+    async def welcomejun_leave_message(self, ctx: commands.Context) -> None:
         """Manage leave message formats."""
 
         pass
 
-    @welcome_leave_message.command(name="add")
-    async def welcome_leave_message_add(self, ctx: commands.Context, *, msg_format: str) -> None:
+    @welcomejun_leave_message.command(name="add")
+    async def welcomejun_leave_message_add(self, ctx: commands.Context, *, msg_format: str) -> None:
         """Add a new leave message format to be chosen.
 
         Allows for the following customizations:
@@ -413,26 +413,26 @@ class Welcome(commands.Cog):
 
         await self.__message_add(ctx, msg_format, "leave")
 
-    @welcome_leave_message.command(name="delete", aliases=["del"])
-    async def welcome_leave_message_delete(self, ctx: commands.Context) -> None:
+    @welcomejun_leave_message.command(name="delete", aliases=["del"])
+    async def welcomejun_leave_message_delete(self, ctx: commands.Context) -> None:
         """Delete an existing leave message format from the list."""
 
         await self.__message_delete(ctx, "leave")
 
-    @welcome_leave_message.command(name="list", aliases=["ls"])
-    async def welcome_leave_message_list(self, ctx: commands.Context) -> None:
+    @welcomejun_leave_message.command(name="list", aliases=["ls"])
+    async def welcomejun_leave_message_list(self, ctx: commands.Context) -> None:
         """Lists the available leave message formats."""
 
         await self.__message_list(ctx, "leave")
 
-    @welcome.group(name="ban")
-    async def welcome_ban(self, ctx: commands.Context) -> None:
+    @welcomejun.group(name="ban")
+    async def welcomejun_ban(self, ctx: commands.Context) -> None:
         """Change settings for ban notices."""
 
         pass
 
-    @welcome_ban.command(name="toggle")
-    async def welcome_ban_toggle(self, ctx: commands.Context, on_off: bool = None) -> None:
+    @welcomejun_ban.command(name="toggle")
+    async def welcomejun_ban_toggle(self, ctx: commands.Context, on_off: bool = None) -> None:
         """Turns ban notices on or off.
 
         If `on_off` is not provided, the state will be flipped.
@@ -440,8 +440,8 @@ class Welcome(commands.Cog):
 
         await self.__toggle(ctx, on_off, "ban")
 
-    @welcome_ban.command(name="channel")
-    async def welcome_ban_channel(self, ctx: commands.Context, channel: discord.TextChannel = None) -> None:
+    @welcomejun_ban.command(name="channel")
+    async def welcomejun_ban_channel(self, ctx: commands.Context, channel: discord.TextChannel = None) -> None:
         """Sets the channel to be used specifically for ban notices.
 
         If `channel` is not provided, the ban-specific channel is cleared.
@@ -449,8 +449,8 @@ class Welcome(commands.Cog):
 
         await self.__set_channel(ctx, channel, "ban")
 
-    @welcome_ban.command(name="toggledelete")
-    async def welcome_ban_toggledelete(self, ctx: commands.Context, on_off: bool = None) -> None:
+    @welcomejun_ban.command(name="toggledelete")
+    async def welcomejun_ban_toggledelete(self, ctx: commands.Context, on_off: bool = None) -> None:
         """Turns deletion of previous ban notice on or off.
 
         If `on_off` is not provided, the state will be flipped.
@@ -458,14 +458,14 @@ class Welcome(commands.Cog):
 
         await self.__toggledelete(ctx, on_off, "ban")
 
-    @welcome_ban.group(name="message", aliases=["msg"])
-    async def welcome_ban_message(self, ctx: commands.Context) -> None:
+    @welcomejun_ban.group(name="message", aliases=["msg"])
+    async def welcomejun_ban_message(self, ctx: commands.Context) -> None:
         """Manage ban message formats."""
 
         pass
 
-    @welcome_ban_message.command(name="add")
-    async def welcome_ban_message_add(self, ctx: commands.Context, *, msg_format: str) -> None:
+    @welcomejun_ban_message.command(name="add")
+    async def welcomejun_ban_message_add(self, ctx: commands.Context, *, msg_format: str) -> None:
         """Add a new ban message format to be chosen.
 
         Allows for the following customizations:
@@ -483,26 +483,26 @@ class Welcome(commands.Cog):
 
         await self.__message_add(ctx, msg_format, "ban")
 
-    @welcome_ban_message.command(name="delete", aliases=["del"])
-    async def welcome_ban_message_delete(self, ctx: commands.Context) -> None:
+    @welcomejun_ban_message.command(name="delete", aliases=["del"])
+    async def welcomejun_ban_message_delete(self, ctx: commands.Context) -> None:
         """Delete an existing ban message format from the list."""
 
         await self.__message_delete(ctx, "ban")
 
-    @welcome_ban_message.command(name="list", aliases=["ls"])
-    async def welcome_ban_message_list(self, ctx: commands.Context) -> None:
+    @welcomejun_ban_message.command(name="list", aliases=["ls"])
+    async def welcomejun_ban_message_list(self, ctx: commands.Context) -> None:
         """Lists the available ban message formats."""
 
         await self.__message_list(ctx, "ban")
 
-    @welcome.group(name="unban")
-    async def welcome_unban(self, ctx: commands.Context) -> None:
+    @welcomejun.group(name="unban")
+    async def welcomejun_unban(self, ctx: commands.Context) -> None:
         """Change settings for unban notices."""
 
         pass
 
-    @welcome_unban.command(name="toggle")
-    async def welcome_unban_toggle(self, ctx: commands.Context, on_off: bool = None) -> None:
+    @welcomejun_unban.command(name="toggle")
+    async def welcomejun_unban_toggle(self, ctx: commands.Context, on_off: bool = None) -> None:
         """Turns unban notices on or off.
 
         If `on_off` is not provided, the state will be flipped.
@@ -510,8 +510,8 @@ class Welcome(commands.Cog):
 
         await self.__toggle(ctx, on_off, "unban")
 
-    @welcome_unban.command(name="channel")
-    async def welcome_unban_channel(self, ctx: commands.Context, channel: discord.TextChannel = None) -> None:
+    @welcomejun_unban.command(name="channel")
+    async def welcomejun_unban_channel(self, ctx: commands.Context, channel: discord.TextChannel = None) -> None:
         """Sets the channel to be used specifically for unban notices.
 
         If `channel` is not provided, the unban-specific channel is cleared.
@@ -519,8 +519,8 @@ class Welcome(commands.Cog):
 
         await self.__set_channel(ctx, channel, "unban")
 
-    @welcome_unban.command(name="toggledelete")
-    async def welcome_unban_toggledelete(self, ctx: commands.Context, on_off: bool = None) -> None:
+    @welcomejun_unban.command(name="toggledelete")
+    async def welcomejun_unban_toggledelete(self, ctx: commands.Context, on_off: bool = None) -> None:
         """Turns deletion of previous unban notice on or off.
 
         If `on_off` is not provided, the state will be flipped.
@@ -528,14 +528,14 @@ class Welcome(commands.Cog):
 
         await self.__toggledelete(ctx, on_off, "unban")
 
-    @welcome_unban.group(name="message", aliases=["msg"])
-    async def welcome_unban_message(self, ctx: commands.Context) -> None:
+    @welcomejun_unban.group(name="message", aliases=["msg"])
+    async def welcomejun_unban_message(self, ctx: commands.Context) -> None:
         """Manage unban message formats."""
 
         pass
 
-    @welcome_unban_message.command(name="add")
-    async def welcome_unban_message_add(self, ctx: commands.Context, *, msg_format: str) -> None:
+    @welcomejun_unban_message.command(name="add")
+    async def welcomejun_unban_message_add(self, ctx: commands.Context, *, msg_format: str) -> None:
         """Add a new unban message format to be chosen.
 
         Allows for the following customizations:
@@ -553,14 +553,14 @@ class Welcome(commands.Cog):
 
         await self.__message_add(ctx, msg_format, "unban")
 
-    @welcome_unban_message.command(name="delete", aliases=["del"])
-    async def welcome_unban_message_delete(self, ctx: commands.Context) -> None:
+    @welcomejun_unban_message.command(name="delete", aliases=["del"])
+    async def welcomejun_unban_message_delete(self, ctx: commands.Context) -> None:
         """Delete an existing unban message format from the list."""
 
         await self.__message_delete(ctx, "unban")
 
-    @welcome_unban_message.command(name="list", aliases=["ls"])
-    async def welcome_unban_message_list(self, ctx: commands.Context) -> None:
+    @welcomejun_unban_message.command(name="list", aliases=["ls"])
+    async def welcomejun_unban_message_list(self, ctx: commands.Context) -> None:
         """Lists the available unban message formats."""
 
         await self.__message_list(ctx, "unban")
@@ -677,7 +677,7 @@ class Welcome(commands.Cog):
             await ctx.send(f"Please enter the number of the {event} message format you wish to delete.")
 
             try:
-                num = await Welcome.__get_number_input(ctx, len(messages))
+                num = await Welcomejun.__get_number_input(ctx, len(messages))
             except asyncio.TimeoutError:
                 await ctx.send(f"Okay, I won't remove any of the {event} message formats.")
                 return
@@ -744,15 +744,15 @@ class Welcome(commands.Cog):
         if channel_id is not None:
             channel = guild.get_channel(channel_id)
 
-        if channel is None or not Welcome.__can_speak_in(channel):
+        if channel is None or not Welcomejun.__can_speak_in(channel):
             channel = guild.get_channel(await self.config.guild(guild).channel())
 
-        if channel is None or not Welcome.__can_speak_in(channel):
+        if channel is None or not Welcomejun.__can_speak_in(channel):
             channel = guild.system_channel
 
-        if channel is None or not Welcome.__can_speak_in(channel):
+        if channel is None or not Welcomejun.__can_speak_in(channel):
             for ch in guild.text_channels:
-                if Welcome.__can_speak_in(ch):
+                if Welcomejun.__can_speak_in(ch):
                     channel = ch
                     break
 
@@ -823,10 +823,10 @@ class Welcome(commands.Cog):
         guild_settings = self.config.guild(guild)
 
         if await guild_settings.date() is None:
-            await guild_settings.date.set(Welcome.__today())
+            await guild_settings.date.set(Welcomejun.__today())
 
-        if Welcome.__today() > await guild_settings.date():
-            await guild_settings.date.set(Welcome.__today())
+        if Welcomejun.__today() > await guild_settings.date():
+            await guild_settings.date.set(Welcomejun.__today())
             await guild_settings.get_attr(event).counter.set(0)
 
         count: int = await guild_settings.get_attr(event).counter()

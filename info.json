@@ -1,6 +1,6 @@
 {
     "author": [
-        "tmerc"
+        "tmerc, jun"
     ],
     "install_msg": "Thanks for installing!\nPlease open an issue on Github if you have problems: https://github.com/tmercswims/tmerc-cogs/issues/new\n Or even better, fix it and open a pull request! https://github.com/tmercswims/tmerc-cogs/compare\nI also have a support channel here: https://discord.gg/HWfwYxN",
     "name": "tmerc cogs",
